@@ -1,0 +1,117 @@
+<!doctype html>
+<!-- Design by Stepan Lyubavtsev. http://mywonderful.website/ -->
+<html lang="ru">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1" name="viewport" />
+		<title>Символы</title>
+		<meta content="Символы" name="title" />
+		<meta content="" name="description" />
+		<meta content="website" property="og:type" />
+		<meta content="https://nameasy.github.io/symbols/" property="og:url" />
+		<meta content="Символы" property="og:title" />
+		<meta content="" property="og:description" />
+		<meta content="" property="og:image" />
+		<meta content="summary_large_image" property="twitter:card" />
+		<meta content="https://nameasy.github.io/symbols/" property="twitter:url" />
+		<meta content="Символы" property="twitter:title" />
+		<meta content="" property="twitter:description" />
+		<meta content="" property="twitter:image" />
+		<link href="/symbols/index.663e398d.css" rel="stylesheet" />
+		<script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"></script>
+	</head>
+
+	<body>
+		<svg style="display: none">
+			<defs>
+				<symbol fill="none" id="corner-down-left" viewbox="0 0 24 24">
+					<path
+						d="M20 4V5.4C20 8.76031 20 10.4405 19.346 11.7239C18.7708 12.8529 17.8529 13.7708 16.7239 14.346C15.4405 15 13.7603 15 10.4 15H4M4 15L9 10M4 15L9 20"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+					></path>
+				</symbol>
+				<symbol fill="none" id="menu-01" viewbox="0 0 24 24">
+					<path d="M3 12H21M3 6H21M3 18H21" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+				</symbol>
+				<symbol fill="none" id="x-close" viewbox="0 0 24 24">
+					<path d="M18 6L6 18M6 6L18 18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+				</symbol>
+			</defs>
+		</svg>
+		<div class="page">
+			<header class="header">
+				<div class="header__logo">
+					<div class="header__logo-text">Символы<sup>β</sup></div>
+				</div>
+				<div class="header__add">
+					<button v-if="symbols.length != 0" @click="toggleAddingForm" class="button header__add-button" type="button">Добавить</button>
+				</div>
+				<nav class="header__menu">
+					<div class="dropdown header__menu-dropdown">
+						<button class="button dropdown__trigger">
+							<svg width="24" height="24" class="button__icon dropdown__trigger-icon">
+								<use href="#menu-01"></use>
+							</svg>
+						</button>
+						<ul class="dropdown__list">
+							<li class="dropdown__item">
+								<a class="dropdown__link" href="https://nameasy.github.io/what-to-watch/">Что посмотреть?</a>
+							</li>
+							<li class="dropdown__item">
+								<a class="dropdown__link" href="https://nameasy.github.io/my-bookmarks/">Мои закладки</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<main class="main">
+				<section class="section">
+					<h1 class="visually-hidden">Список символов</h1>
+					<div v-if="symbols.length === 0" class="section__empty">
+						<div class="section__empty-kaomoji">(｡•́︿•̀｡)</div>
+						<div class="section__empty-text">Пока ничего не добавлено</div>
+						<button @click="toggleAddingForm" class="button section__empty-button" type="button">Добавить</button>
+					</div>
+					<div v-else="">
+						<ul class="section__list">
+							<li v-for="symbol in symbols" :key="symbol.id" @mouseover="addActiveClass(symbol)" @mouseleave="removeActiveClass(symbol)" class="section__item">
+								<div :class="{ 'symbol': true, 'symbol--is-active': symbol.active}">
+									<div class="symbol__text">{{ symbol.name }}</div>
+									<div class="symbol__actions">
+										<button @click="copyToClipboard(symbol.name)" class="button button--primary symbol__copy" type="button">{{ buttonText }}</button>
+										<button @click="editSymbol(symbol)" class="button symbol__edit" type="button">Редактировать</button>
+										<button @click="deleteSymbol(symbol.id)" class="button symbol__delete" type="button">Удалить</button>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</main>
+			<footer class="footer">
+				<div class="footer__text">
+					Проект
+					<a class="link" href="http://mywonderful.website/">Степана Любавцева</a>
+				</div>
+			</footer>
+			<div :class="{ 'modal': true, 'modal--is-open': addingFormOpen}">
+				<button @click="toggleAddingForm" class="button modal__close" type="button">
+					<svg width="24" height="24" class="button__icon modal__close-icon">
+						<use href="#x-close"></use>
+					</svg>
+				</button>
+				<form @submit.prevent="addSymbol" class="modal__form">
+					<div class="modal__form-control">
+						<label class="visually-hidden"></label>
+						<input v-model="symbolInput" class="input modal__form-input" placeholder="Вводить сюда" ref="symbolInput" type="text" />
+						<kbd class="modal__form-key">↲</kbd>
+					</div>
+					<button class="button button--primary modal__form-button" type="submit">{{ editedSymbolIndex !== -1 ? 'Сохранить' : 'Добавить' }}</button>
+				</form>
+			</div>
+		</div>
+		<script src="/symbols/index.f2251fb6.js"></script>
+	</body>
+</html>
